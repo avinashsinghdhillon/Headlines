@@ -28,13 +28,13 @@ mongoose.connect("mongodb://localhost/headlines", { useNewUrlParser: true });
 // Scrape data from one site and place it into the mongodb db
 app.get("/scrape", function(req, res) {
     // Make a request via axios for the news section of `ycombinator`
-    axios.get("https://www.nytimes.com/").then(function(response) {
+    axios.get("https://www.nytimes.com/section/technology").then(function(response) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
         var result = {};
         $("article").each(function(i, element) {
           result.title = $(element).children().text();
-          result.url = "https://www.nytimes.com" + $(element).find("a").attr("href");
+          result.url = "https://www.nytimes.com/section/technology" + $(element).find("a").attr("href");
           result.time = $(element).find("time").text();
          
           db.Headline.create(result)
