@@ -7,13 +7,13 @@ var HeadlineSchema = new Schema({
         unique: true
     },
     url: String,
-    time: String
-    // notes: [
-    //     {
-    //         type: Schema.Types.ObjectId,
-    //         ref: "Note"
-    //     }
-    // ]
+    excerpt: String,
+    notes: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Note"
+        }
+    ]
 });
 
 var Headline = mongoose.model("Headline", HeadlineSchema);

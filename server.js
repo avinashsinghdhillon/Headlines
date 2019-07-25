@@ -33,9 +33,9 @@ app.get("/scrape", function(req, res) {
         var $ = cheerio.load(response.data);
         var result = {};
         $("article").each(function(i, element) {
-          result.title = $(element).children().text();
+          result.title = $($(element).find("h2").children()[0]).text();
           result.url = "https://www.nytimes.com/section/technology" + $(element).find("a").attr("href");
-          result.time = $(element).find("time").text();
+          result.excerpt = $(element).find("p").text();
          
           db.Headline.create(result)
             .then(function(dbHeadline){
@@ -52,7 +52,17 @@ app.get("/scrape", function(req, res) {
 });
 
 //route to list all scraped headlines
-
+// Route for getting all Articles from the db
+app.get("/headlines", function(req, res) {
+  // TODO: Finish the route so it grabs all of the articles
+  db.Headline.find({})
+    .then(function(dbHeadline){
+      res.json(dbHeadline);
+    })
+    .catch(function(err){
+      res.json(err);
+    });
+});
 
 //route to save an article
 
