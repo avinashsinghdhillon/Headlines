@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/Headlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/headlines";
 mongoose.connect(MONGODB_URI);
 
 //function to scrape NYT and get title, URL and description
@@ -49,7 +49,7 @@ app.get("/scrape", function(req, res) {
       })
   // Send data
   //console.log(returnData);
-  //res.json(returnData)
+  res.json(true)
 })
 
 //route to list all scraped headlines

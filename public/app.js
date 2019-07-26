@@ -9,8 +9,8 @@ $("#butRefresh").click(function(){
     method: "GET",
     url: "/scrape"
   }).done(function(data){
-    window.location.reload(true);
-    postHeadlines(data);
+    // window.location.reload(true);
+    postHeadlines();
   });
 })
 
@@ -21,7 +21,7 @@ $(document).on("click", ".saveFav", function(){
   })
 })
 
-function postHeadlines(data){
+function postHeadlines(){
   //debugger;
   $.ajax({
     method: "GET",
