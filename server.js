@@ -67,7 +67,6 @@ app.get("/headlines", function(req, res) {
 
 //route to save an article
 app.post("/favorite/:id", function(req, res){
-  console.log("Updating: " + req.params.id);
   db.Headline.findOneAndUpdate({ _id: req.params.id }, { favorite: true }, { new: true })
   .catch(function(err) {
     // If an error occurred, send it to the client
@@ -78,7 +77,6 @@ app.post("/favorite/:id", function(req, res){
 
 //route to list all saved articles
 app.get("/headlines/saved", function(req, res) {
-  console.log("In saved route!");
   // TODO: Finish the route so it grabs all of the articles
   db.Headline.find({favorite: true})
     .then(function(dbHeadline){
@@ -89,13 +87,34 @@ app.get("/headlines/saved", function(req, res) {
     });
 });
 
-//route to save a note on a saved article
+//route to add/edit a note on a saved article//////////////////////////////
+app.post("/note/:id", function(req, res){
+  db.Note.create(req.body)
+  .then(function(dbNote){
+    return db.Headline.updateOne({ _id: req.params.id }, {$push: {notes: dbNote._id}}, { new: true })
+  })
+  .then(function(dbHeadline){
+    res.json(dbHeadline);
+  })
+  .catch(function(err) {
+    // If an error occurred, send it to the client
+    res.json(err);
+  });
+})
 
+//route to find Headline and all notes saved under it
+app.get("/headline/:id", function(req, res){
+  db.Headline.findOne({_id: req.params.id})
+  .populate("notes")
+  .then(function(dbHeadline){
+    res.json(dbHeadline)
+  })
+  .catch(function(err){
+    res.json(err);
+  })
+})
 
-//route to edit a note
-
-
-//route to  delete a note
+//route to  delete a note/////////////////////////////////////////
 
 
 //route to unsave a note
