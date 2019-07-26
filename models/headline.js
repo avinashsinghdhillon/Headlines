@@ -8,6 +8,7 @@ var HeadlineSchema = new Schema({
     },
     url: String,
     excerpt: String,
+    favorite: Boolean,
     notes: [
         {
             type: Schema.Types.ObjectId,
