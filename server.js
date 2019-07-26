@@ -109,6 +109,12 @@ app.post("/favorite/remove/:id", function(req, res){
   res.status(200);
 })
 
+//catch all route
+app.get("*", function(req, res){
+  res.redirect("index");
+})
+
+
 // Start the server
 app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");
